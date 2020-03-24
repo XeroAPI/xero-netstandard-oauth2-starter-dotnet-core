@@ -1,0 +1,32 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    @if (Model == false) {
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "Authorization")'">Connect to Xero</button>
+      </p>
+    } else {
+      <p> You are connected to your Xero organisation. Try the following operations:</p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "Authorization")'">Reauthorize Xero</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "OrganisationInfo")'">Get Organisation Information</button>
+      </p>
+      
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "ContactsInfo")'">Get Contacts</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Create", "ContactsInfo")'">Create A Contact</button>
+      </p>
+    }
+
+</div>

@@ -1,0 +1,10 @@
+@model Xero.NetStandard.OAuth2.Model.Organisation
+
+<h2>Organisation Info</h2>
+
+<p>Name: @Model.Name</p>
+<p>ID: @Model.OrganisationID</p>
+<p>Type: @Model.OrganisationEntityType</p>
+<p>Base Currency: @Model.BaseCurrency</p>
+
+<button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>

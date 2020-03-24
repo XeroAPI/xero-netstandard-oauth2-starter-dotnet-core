@@ -1,0 +1,21 @@
+@model dynamic
+
+<h2>Xero Contacts</h2>
+
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+  </tr>
+  @foreach (var contact in Model) {
+    <tr>
+      <td>@contact.Name</td>
+      <td>@contact.EmailAddress</td>
+    </tr>
+  }
+</table>
+
+<br>
+<p>
+  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+</p>
