@@ -26,7 +26,7 @@ namespace XeroNetStandardApp.Controllers
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /Contacts/
+    // GET: /ContactsInfo/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -50,14 +50,14 @@ namespace XeroNetStandardApp.Controllers
       return View(contacts);
     }
 
-    // GET: /Contacts#Create
+    // GET: /ContactsInfo#Create
     [HttpGet]
     public IActionResult Create()
     {
       return View();
     }
 
-    // POST: /Contacts#Create
+    // POST: /ContactsInfo#Create
     [HttpPost]
     public async Task<ActionResult> Create(string Name, string EmailAddress)
     {

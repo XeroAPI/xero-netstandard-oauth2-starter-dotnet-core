@@ -40,8 +40,6 @@ namespace XeroNetStandardApp.Controllers
       var client = new XeroClient(XeroConfig.Value, httpClientFactory);
       var xeroToken = (XeroOAuth2Token)await client.RequestXeroTokenAsync(code);
 
-      Console.WriteLine("xeroToken: {0}", xeroToken);
-
       List<Tenant> tenants = await client.GetConnectionsAsync(xeroToken);
 
       Tenant firstTenant = tenants[0];
