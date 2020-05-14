@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Xero.NetStandard.OAuth2.Model.Accounting;
+using Xero.NetStandard.OAuth2.Model.Identity;
 using Xero.NetStandard.OAuth2.Token;
 using Xero.NetStandard.OAuth2.Api;
 using Xero.NetStandard.OAuth2.Config;
@@ -13,20 +13,20 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class ContactsInfo : Controller
+  public class IdentityInfo : Controller
   {
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public ContactsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public IdentityInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /ContactsInfo/
+    // GET: /IdentityInfo/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -40,26 +40,18 @@ namespace XeroNetStandardApp.Controllers
       }
 
       string accessToken = xeroToken.AccessToken;
-      string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetContactsAsync(accessToken, xeroTenantId);
+      var IdentityApi = new IdentityApi();
+      var response = await IdentityApi.GetConnectionsAsync(accessToken);
 
-      var contacts = response._Contacts;
+      var connections = response;
 
-      return View(contacts);
+      return View(connections);
     }
 
-    // GET: /ContactsInfo#Create
+    // GET: /Identity#Delete
     [HttpGet]
-    public IActionResult Create()
-    {
-      return View();
-    }
-
-    // POST: /ContactsInfo#Create
-    [HttpPost]
-    public async Task<ActionResult> Create(string Name, string EmailAddress)
+    public async Task<ActionResult> Delete(string connectionId)
     {
       var xeroToken = TokenUtilities.GetStoredToken();
       var utcTimeNow = DateTime.UtcNow;
@@ -72,18 +64,14 @@ namespace XeroNetStandardApp.Controllers
       }
 
       string accessToken = xeroToken.AccessToken;
-      string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
+      Guid connectionIdGuid = Guid.Parse(connectionId);
 
-      var contact = new Contact();
-      contact.Name = Name;
-      contact.EmailAddress = EmailAddress;
-      var contacts = new Contacts();
-      contacts._Contacts = new List<Contact>() { contact };
+      var IdentityApi = new IdentityApi();
+      await IdentityApi.DeleteConnectionAsync(accessToken, connectionIdGuid);
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.CreateContactsAsync(accessToken, xeroTenantId, contacts);
+      TokenUtilities.DestroyToken();
 
-      return RedirectToAction("Index", "ContactsInfo");
+      return RedirectToAction("Index", "Home");
     }
   }
 }

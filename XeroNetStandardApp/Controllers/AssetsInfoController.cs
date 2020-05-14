@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Xero.NetStandard.OAuth2.Model.Accounting;
+using Xero.NetStandard.OAuth2.Model.Asset;
 using Xero.NetStandard.OAuth2.Token;
 using Xero.NetStandard.OAuth2.Api;
 using Xero.NetStandard.OAuth2.Config;
@@ -13,20 +13,20 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class ContactsInfo : Controller
+  public class AssetsInfo : Controller
   {
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public ContactsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public AssetsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /ContactsInfo/
+    // GET: /Assets/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -42,24 +42,25 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetContactsAsync(accessToken, xeroTenantId);
+      var AssetApi = new AssetApi();
 
-      var contacts = response._Contacts;
+      var response = await AssetApi.GetAssetsAsync(accessToken, xeroTenantId, AssetStatusQueryParam.DRAFT);
 
-      return View(contacts);
+      var assetItems = response.Items;
+
+      return View(assetItems);
     }
 
-    // GET: /ContactsInfo#Create
+    // GET: /AssetsInfo#Create
     [HttpGet]
     public IActionResult Create()
     {
       return View();
     }
 
-    // POST: /ContactsInfo#Create
+    // POST: /AssetsInfo#Create
     [HttpPost]
-    public async Task<ActionResult> Create(string Name, string EmailAddress)
+    public async Task<ActionResult> Create(string Name, string Number)
     {
       var xeroToken = TokenUtilities.GetStoredToken();
       var utcTimeNow = DateTime.UtcNow;
@@ -74,16 +75,15 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var contact = new Contact();
-      contact.Name = Name;
-      contact.EmailAddress = EmailAddress;
-      var contacts = new Contacts();
-      contacts._Contacts = new List<Contact>() { contact };
+      var asset = new Asset() {
+        AssetName = Name,
+        AssetNumber = Number
+      };
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.CreateContactsAsync(accessToken, xeroTenantId, contacts);
+      var AssetApi = new AssetApi();
+      var response = await AssetApi.CreateAssetAsync(accessToken, xeroTenantId, asset);
 
-      return RedirectToAction("Index", "ContactsInfo");
+      return RedirectToAction("Index", "AssetsInfo");
     }
   }
 }

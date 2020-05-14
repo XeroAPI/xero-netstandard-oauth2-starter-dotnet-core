@@ -13,20 +13,20 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class ContactsInfo : Controller
+  public class InvoiceSync : Controller
   {
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public ContactsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public InvoiceSync(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /ContactsInfo/
+    // GET: /InvoiceSync/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -43,23 +43,27 @@ namespace XeroNetStandardApp.Controllers
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
       var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetContactsAsync(accessToken, xeroTenantId);
 
-      var contacts = response._Contacts;
 
-      return View(contacts);
+      var sevenDaysAgo = DateTime.Now.AddDays(-7).ToString("yyyy, MM, dd");
+      var invoicesFilter = "Date >= DateTime(" + sevenDaysAgo + ")";
+
+      var response = await AccountingApi.GetInvoicesAsync(accessToken, xeroTenantId, null, invoicesFilter);
+      var invoices = response._Invoices;
+
+      return View(invoices);
     }
 
-    // GET: /ContactsInfo#Create
+    // GET: /InvoiceSync#Create
     [HttpGet]
     public IActionResult Create()
     {
       return View();
     }
 
-    // POST: /ContactsInfo#Create
+    // POST: /InvoiceSync#Create
     [HttpPost]
-    public async Task<ActionResult> Create(string Name, string EmailAddress)
+    public async Task<ActionResult> Create(string Name, string LineDescription, string LineQuantity, string LineUnitAmount, string LineAccountCode)
     {
       var xeroToken = TokenUtilities.GetStoredToken();
       var utcTimeNow = DateTime.UtcNow;
@@ -76,14 +80,38 @@ namespace XeroNetStandardApp.Controllers
 
       var contact = new Contact();
       contact.Name = Name;
-      contact.EmailAddress = EmailAddress;
-      var contacts = new Contacts();
-      contacts._Contacts = new List<Contact>() { contact };
+      
+      var line = new LineItem() {
+        Description = LineDescription,
+        Quantity = float.Parse(LineQuantity),
+        UnitAmount = float.Parse(LineUnitAmount),
+        AccountCode = LineAccountCode
+      };
+
+      var lines = new List<LineItem>() {
+        line
+      };
+
+      var invoice = new Invoice() {
+        Type = Invoice.TypeEnum.ACCREC,
+        Contact = contact,
+        Date = DateTime.Today,
+        DueDate = DateTime.Today.AddDays(30),
+        LineItems = lines
+      };
+
+      var invoiceList = new List<Invoice>();
+      invoiceList.Add(invoice);
+
+      var invoices = new Invoices();
+      invoices._Invoices = invoiceList;
 
       var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.CreateContactsAsync(accessToken, xeroTenantId, contacts);
+      var response = await AccountingApi.CreateInvoicesAsync(accessToken, xeroTenantId, invoices);
+      
+      var updatedUTC = response._Invoices[0].UpdatedDateUTC;
 
-      return RedirectToAction("Index", "ContactsInfo");
+      return RedirectToAction("Index", "InvoiceSync");
     }
   }
 }

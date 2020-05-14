@@ -488,7 +488,7 @@
           "lib/netstandard2.0/System.Text.Encodings.Web.dll": {}
         }
       },
-      "Xero.NetStandard.OAuth2/0.1.0": {
+      "Xero.NetStandard.OAuth2/2.2.0": {
         "type": "package",
         "dependencies": {
           "CompareNETObjects": "4.57.0",
@@ -504,7 +504,7 @@
           "lib/netstandard2.0/Xero.NetStandard.OAuth2.dll": {}
         }
       },
-      "Xero.NetStandard.OAuth2Client/0.0.3": {
+      "Xero.NetStandard.OAuth2Client/0.0.4": {
         "type": "package",
         "dependencies": {
           "IdentityModel": "3.10.10",
@@ -1406,27 +1406,27 @@
         "version.txt"
       ]
     },
-    "Xero.NetStandard.OAuth2/0.1.0": {
-      "sha512": "9QvAM8K0MFAdmCFfaSdXhP7k//MYOIKvWxfa6bGXWfrwA5oWOsfo1AyOeao3ExomsXsjERCrgQrZ/TYzZeTpwg==",
+    "Xero.NetStandard.OAuth2/2.2.0": {
+      "sha512": "ZxfPu85BhnZsRkmnJozP3s3HkR/v+t1bOLLiVbxRZNoOJ5PrUHeNAPB47FcOdePYJtBp1F/fE3Iw8C3omotWsw==",
       "type": "package",
-      "path": "xero.netstandard.oauth2/0.1.0",
+      "path": "xero.netstandard.oauth2/2.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Xero.NetStandard.OAuth2.dll",
-        "xero.netstandard.oauth2.0.1.0.nupkg.sha512",
+        "xero.netstandard.oauth2.2.2.0.nupkg.sha512",
         "xero.netstandard.oauth2.nuspec"
       ]
     },
-    "Xero.NetStandard.OAuth2Client/0.0.3": {
-      "sha512": "9awn/euXR7CxbUzkFldP75leRSRRKLD/rbiCwHXaXKki0A6a1QaEeXvDwRC/AbPZSXE0LmfItWWiSAyD2mVmmQ==",
+    "Xero.NetStandard.OAuth2Client/0.0.4": {
+      "sha512": "N0cvu52n6u1gF4uZ8Wghh1OVI+TsGrWAgzuFzGu82HUAH86viul6WHKDEKLdoP5nnD1tsBGEFAlsvRX0uAQ9Rw==",
       "type": "package",
-      "path": "xero.netstandard.oauth2client/0.0.3",
+      "path": "xero.netstandard.oauth2client/0.0.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Xero.NetStandard.OAuth2Client.dll",
-        "xero.netstandard.oauth2client.0.0.3.nupkg.sha512",
+        "xero.netstandard.oauth2client.0.0.4.nupkg.sha512",
         "xero.netstandard.oauth2client.nuspec"
       ]
     }
@@ -1434,8 +1434,8 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.AspNetCore.Session >= 2.2.0",
-      "Xero.NetStandard.OAuth2 >= 0.1.0",
-      "Xero.NetStandard.OAuth2Client >= 0.0.3"
+      "Xero.NetStandard.OAuth2 >= 2.2.0",
+      "Xero.NetStandard.OAuth2Client >= 0.0.4"
     ]
   },
   "packageFolders": {
@@ -1483,11 +1483,11 @@
           },
           "Xero.NetStandard.OAuth2": {
             "target": "Package",
-            "version": "[0.1.0, )"
+            "version": "[2.2.0, )"
           },
           "Xero.NetStandard.OAuth2Client": {
             "target": "Package",
-            "version": "[0.0.3, )"
+            "version": "[0.0.4, )"
           }
         },
         "imports": [
@@ -1508,7 +1508,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
       }
     }
   }
