@@ -12,8 +12,14 @@
     } else {
       <p> You are connected to your Xero organisation. Try the following operations:</p>
 
+      <p> Accounting APIs: </p>
+
       <p>
         <button onclick="location.href='@Url.Action("Index", "Authorization")'">Reauthorize Xero</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Disconnect", "Authorization")'">Disconnect Xero</button>
       </p>
 
       <p>
@@ -27,6 +33,46 @@
       <p>
         <button onclick="location.href='@Url.Action("Create", "ContactsInfo")'">Create A Contact</button>
       </p>
+      
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "InvoiceSync")'">Get Invoices</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Create", "InvoiceSync")'">Create An Invoice</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "BankTransactionsInfo")'">Get BankTransactions</button>
+      </p>
+
+      <p> Asset APIs: </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "AssetsInfo")'">Get Fixed Assets</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Create", "AssetsInfo")'">Create A Fixed Asset</button>
+      </p>
+
+      <p> Identity APIs: </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "IdentityInfo")'">Get Connections using Identity Api</button>
+      </p>
+
+      <p> AU Payroll APIs: </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Index", "EmployeesInfo")'">Get AU Payroll Employees</button>
+      </p>
+
+      <p>
+        <button onclick="location.href='@Url.Action("Create", "EmployeesInfo")'">Create An AU Payroll Employee</button>
+      </p>
+
+
     }
 
 </div>

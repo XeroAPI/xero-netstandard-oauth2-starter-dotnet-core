@@ -1,0 +1,27 @@
+@model dynamic
+
+<h2>Xero Invoices in the Last 7 Days</h2>
+
+<table border="1">
+  <tr>
+    <th>Invoice #</th>
+    <th>To</th>
+    <th>Date</th>
+    <th>Due Date</th>
+    <th>Total Due</th>
+  </tr>
+  @foreach (var invoice in Model) {
+    <tr>
+      <td>@invoice.InvoiceNumber</td>
+      <td>@invoice.Contact.Name</td>
+      <td>@invoice.Date.ToString("dddd, dd MMMM yyyy")</td>
+      <td>@invoice.DueDate.ToString("dddd, dd MMMM yyyy")</td>
+      <td>@invoice.Total</td>
+    </tr>
+  }
+</table>
+
+<br>
+<p>
+  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+</p>

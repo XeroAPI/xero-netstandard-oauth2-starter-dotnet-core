@@ -49,5 +49,28 @@ namespace XeroNetStandardApp.Controllers
       return RedirectToAction("Index", "OrganisationInfo");
     }
 
+    // GET /Authorization/Disconnect
+    public async Task<ActionResult> Disconnect()
+    {      
+      var client = new XeroClient(XeroConfig.Value, httpClientFactory);
+
+      var xeroToken = TokenUtilities.GetStoredToken();
+      var utcTimeNow = DateTime.UtcNow;
+
+      if (utcTimeNow > xeroToken.ExpiresAtUtc)
+      {
+        xeroToken = (XeroOAuth2Token)await client.RefreshAccessTokenAsync(xeroToken);
+        TokenUtilities.StoreToken(xeroToken);
+      }
+
+      string accessToken = xeroToken.AccessToken;
+      Tenant xeroTenant = xeroToken.Tenants[0];
+
+      await client.DeleteConnectionAsync(xeroToken, xeroTenant);
+
+      TokenUtilities.DestroyToken();
+
+      return RedirectToAction("Index", "Home");
+    }
   }
 }

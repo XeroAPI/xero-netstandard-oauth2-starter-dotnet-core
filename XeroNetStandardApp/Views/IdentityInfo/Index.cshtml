@@ -1,0 +1,33 @@
+@model dynamic
+
+<h2>Xero Connections</h2>
+
+<table border="1">
+  <tr>
+    <th>Connection ID</th>
+    <th>Tenant ID</th>
+    <th>Tenant Type</th>
+    <th>Tenant Name</th>
+    <th>Created Date (UTC)</th>
+    <th>Updated Date (UTC)</th>
+    <th>Delete this Connection Using Connection Id</th>
+  </tr>
+  @foreach (var connection in Model) {
+    <tr>
+      <td>@connection.Id</td>
+      <td>@connection.TenantId</td>
+      <td>@connection.TenantType</td>
+      <td>@connection.TenantName</td>
+      <td>@connection.CreatedDateUTC</td>
+      <td>@connection.UpdatedDateUtc</td>
+      <td>
+        <button onclick="location.href='@Url.Action("Delete", "IdentityInfo", new { connectionId = @connection.Id })'">Delete</button>
+      </td>
+    </tr>
+  }
+</table>
+
+<br>
+<p>
+  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+</p>

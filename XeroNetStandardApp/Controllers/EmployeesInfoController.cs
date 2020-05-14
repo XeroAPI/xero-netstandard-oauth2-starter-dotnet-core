@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Xero.NetStandard.OAuth2.Model.Accounting;
+using Xero.NetStandard.OAuth2.Model.PayrollAu;
 using Xero.NetStandard.OAuth2.Token;
 using Xero.NetStandard.OAuth2.Api;
 using Xero.NetStandard.OAuth2.Config;
@@ -13,20 +13,20 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class ContactsInfo : Controller
+  public class EmployeesInfo : Controller
   {
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public ContactsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public EmployeesInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /ContactsInfo/
+    // GET: /EmployeesInfo/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -42,24 +42,24 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetContactsAsync(accessToken, xeroTenantId);
+      var PayrollAUApi = new PayrollAUApi();
+      var response = await PayrollAUApi.GetEmployeesAsync(accessToken, xeroTenantId);
 
-      var contacts = response._Contacts;
+      var employees = response._Employees;
 
-      return View(contacts);
+      return View(employees);
     }
 
-    // GET: /ContactsInfo#Create
+    // GET: /Contacts#Create
     [HttpGet]
     public IActionResult Create()
     {
       return View();
     }
 
-    // POST: /ContactsInfo#Create
+    // POST: /Contacts#Create
     [HttpPost]
-    public async Task<ActionResult> Create(string Name, string EmailAddress)
+    public async Task<ActionResult> Create(string firstName, string lastName, string DateOfBirth)
     {
       var xeroToken = TokenUtilities.GetStoredToken();
       var utcTimeNow = DateTime.UtcNow;
@@ -74,16 +74,36 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var contact = new Contact();
-      contact.Name = Name;
-      contact.EmailAddress = EmailAddress;
-      var contacts = new Contacts();
-      contacts._Contacts = new List<Contact>() { contact };
+      // var contact = new Contact();
+      // contact.Name = Name;
+      // contact.EmailAddress = EmailAddress;
+      // var contacts = new Contacts();
+      // contacts._Contacts = new List<Contact>() { contact };
 
-      var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.CreateContactsAsync(accessToken, xeroTenantId, contacts);
+      DateTime dob = DateTime.Today.AddYears(-20);
 
-      return RedirectToAction("Index", "ContactsInfo");
+      HomeAddress homeAddress = new HomeAddress() {
+        AddressLine1 = "6 MeatMe Street",
+        AddressLine2 = " ",
+        Region = State.VIC,
+        City = "Long Island",
+        PostalCode = "9999", 
+        Country = "New York"
+      };
+
+      Employee employee = new Employee() {
+        FirstName = firstName,
+        LastName = lastName,
+        DateOfBirth = dob,
+        HomeAddress = homeAddress
+      };
+
+      var employees = new List<Employee>() { employee };
+
+      var PayrollAUApi = new PayrollAUApi();
+      var response = await PayrollAUApi.CreateEmployeeAsync(accessToken, xeroTenantId, employees);
+
+      return RedirectToAction("Index", "EmployeesInfo");
     }
   }
 }

@@ -13,21 +13,21 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class OrganisationInfo : Controller
+  public class InvoicePdf : Controller
   {
 
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public OrganisationInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public InvoicePdf(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /Organisation/
+    // GET: /InvoicePdf/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -43,13 +43,14 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
+      Guid invoiceId = Guid.Parse("d5654fc7-be8e-42e5-802a-9f5ab9d2476a");
+
       var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetOrganisationsAsync(accessToken, xeroTenantId);
 
-      var organisation_info = new Organisation();
-      organisation_info = response._Organisations[0];
+      var response = await AccountingApi.GetInvoiceAsPdfAsync(accessToken, xeroTenantId, invoiceId);
 
-      return View(organisation_info);
+      return new FileStreamResult(response, "application/pdf");
+
     }
   }
 }

@@ -13,21 +13,21 @@ using System.Net.Http;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class OrganisationInfo : Controller
+  public class BankTransactionsInfo : Controller
   {
 
     private readonly ILogger<AuthorizationController> _logger;
     private readonly IOptions<XeroConfiguration> XeroConfig;
     private readonly IHttpClientFactory httpClientFactory;
 
-    public OrganisationInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    public BankTransactionsInfo(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
     {
       _logger = logger;
       this.XeroConfig = XeroConfig;
       this.httpClientFactory = httpClientFactory;
     }
 
-    // GET: /Organisation/
+    // GET: /BankTransactionsInfo/
     public async Task<ActionResult> Index()
     {
       var xeroToken = TokenUtilities.GetStoredToken();
@@ -44,12 +44,10 @@ namespace XeroNetStandardApp.Controllers
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
       var AccountingApi = new AccountingApi();
-      var response = await AccountingApi.GetOrganisationsAsync(accessToken, xeroTenantId);
+      var response = await AccountingApi.GetBankTransactionsAsync(accessToken, xeroTenantId);
+      var bankTransactions = response._BankTransactions;
 
-      var organisation_info = new Organisation();
-      organisation_info = response._Organisations[0];
-
-      return View(organisation_info);
+      return View(bankTransactions);
     }
   }
 }

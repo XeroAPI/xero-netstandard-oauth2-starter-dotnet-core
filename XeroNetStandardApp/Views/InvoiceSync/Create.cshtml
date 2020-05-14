@@ -1,0 +1,36 @@
+<h2>Create a Xero Invoice</h2>
+
+<form method="POST">
+    <label for="Name">Send Invoice to Contact Name:</label>
+    <br>
+    <input type="text" id="Name" placeholder="Enter a contact name" name="Name"/>
+    <br>
+
+    <label for="LineDescription">Line Description:</label>
+    <br>
+    <input type="text" id="LineDescription" placeholder="Enter description" name="LineDescription" />
+    <br>
+
+    <label for="LineQuantity">Line Quantity:</label>
+    <br>
+    <input type="text" id="LineQuantity" placeholder="Enter quantity" name="LineQuantity" />
+    <br>
+
+    <label for="LineUnitAmount">Line Unit Amount:</label>
+    <br>
+    <input type="text" id="LineUnitAmount" placeholder="Enter unit amount" name="LineUnitAmount" />
+    <br>
+
+    <label for="LineAccountCode">Line Account Code:</label>
+    <br>
+    <input type="text" id="LineAccountCode" placeholder="Enter account code" name="LineAccountCode" />
+    <br>
+
+    <br>
+    <input type="submit" />
+</form>
+
+<br>
+<p>
+  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+</p>

@@ -25,4 +25,12 @@ public static class TokenUtilities
 
     return fileExist;
   }
+
+  public static void DestroyToken()
+  {
+    string serializedXeroTokenPath = "./xerotoken.json";
+    File.Delete(serializedXeroTokenPath);
+
+    return;
+  }
 }

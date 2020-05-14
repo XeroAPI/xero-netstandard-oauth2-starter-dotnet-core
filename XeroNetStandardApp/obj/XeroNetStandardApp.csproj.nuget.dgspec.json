@@ -45,11 +45,11 @@
             },
             "Xero.NetStandard.OAuth2": {
               "target": "Package",
-              "version": "[0.1.0, )"
+              "version": "[2.2.0, )"
             },
             "Xero.NetStandard.OAuth2Client": {
               "target": "Package",
-              "version": "[0.0.3, )"
+              "version": "[0.0.4, )"
             }
           },
           "imports": [
@@ -70,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
         }
       }
     }

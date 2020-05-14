@@ -1,0 +1,25 @@
+@model dynamic
+
+<h2>Xero BankTransactions</h2>
+
+<table border="1">
+  <tr>
+    <th>Date</th>
+    <th>Reference</th>
+    <th>Type</th>
+    <th>Total</th>
+  </tr>
+  @foreach (var bankTransaction in Model) {
+    <tr>
+      <td>@bankTransaction.Date.ToString("dddd, dd MMMM yyyy")</td>
+      <td>@bankTransaction.Reference</td>
+      <td>@bankTransaction.Type</td>
+      <td>@bankTransaction.Total</td>
+    </tr>
+  }
+</table>
+
+<br>
+<p>
+  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
+</p>
