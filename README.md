@@ -3,6 +3,8 @@ This is a starter app build with .NET Core 3.1 MVC to demonstrate Xero OAuth 2.0
 
 ![NetStandardDemo](https://user-images.githubusercontent.com/41350731/76293982-27636380-6306-11ea-8b83-e4dda46b7365.gif)
 
+__IMPORTANT!__ This application is for demo only. We recommend setting up a secure token storage for your production usage.
+
 Its functions include:
 
 - connect & reconnect to xero
