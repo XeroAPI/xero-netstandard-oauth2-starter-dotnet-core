@@ -42,7 +42,7 @@ namespace XeroNetStandardApp.Controllers
       string accessToken = xeroToken.AccessToken;
       string xeroTenantId = xeroToken.Tenants[0].TenantId.ToString();
 
-      var PayrollAUApi = new PayrollAUApi();
+      var PayrollAUApi = new PayrollAuApi();
       var response = await PayrollAUApi.GetEmployeesAsync(accessToken, xeroTenantId);
 
       var employees = response._Employees;
@@ -100,7 +100,7 @@ namespace XeroNetStandardApp.Controllers
 
       var employees = new List<Employee>() { employee };
 
-      var PayrollAUApi = new PayrollAUApi();
+      var PayrollAUApi = new PayrollAuApi();
       var response = await PayrollAUApi.CreateEmployeeAsync(accessToken, xeroTenantId, employees);
 
       return RedirectToAction("Index", "EmployeesInfo");

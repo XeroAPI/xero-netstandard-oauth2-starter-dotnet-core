@@ -8,12 +8,7 @@ namespace XeroNetStandardApp.Controllers
   {
     public IActionResult Index()
     {
-      bool firstTimeConnection = false;
-
-      if (TokenUtilities.TokenExists())
-      {
-        firstTimeConnection = true;
-      }
+      bool firstTimeConnection = TokenUtilities.TokenExists();
 
       return View(firstTimeConnection);
     }
