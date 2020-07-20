@@ -1,31 +1,4 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@jenksguo 
-XeroAPI
-/
-xero-netstandard-oauth2-samples
-7
-6
-10
- Code
- Issues 3
- Pull requests 1 Actions
- Projects 0
- Wiki
- Security 0
- Insights
- Settings
-xero-netstandard-oauth2-samples/.gitignore
-@MJMortimer MJMortimer Add XeroSignInSample and XeroOAuth2Sample
-3f50000 on 2 Sep 2019
-672 lines (501 sloc)  12.3 KB
-  
+xerotoken.json
 
 # Created by https://www.gitignore.io/api/git,osx,rider,windows,jetbrains,aspnetcore,visualstudio,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,osx,rider,windows,jetbrains,aspnetcore,visualstudio,visualstudiocode
@@ -698,15 +671,3 @@ ASALocalRun/
 healthchecksdb
 
 # End of https://www.gitignore.io/api/git,osx,rider,windows,jetbrains,aspnetcore,visualstudio,visualstudiocode
-© 2020 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
