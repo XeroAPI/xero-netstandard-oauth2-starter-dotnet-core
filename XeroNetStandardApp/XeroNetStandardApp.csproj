@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xero.NetStandard.OAuth2" Version="2.2.0" />
-    <PackageReference Include="Xero.NetStandard.OAuth2Client" Version="0.0.4" />
+    <PackageReference Include="Xero.NetStandard.OAuth2" Version="3.1.0" />
+    <PackageReference Include="Xero.NetStandard.OAuth2Client" Version="0.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
   </ItemGroup>
 </Project>

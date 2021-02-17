@@ -83,8 +83,8 @@ namespace XeroNetStandardApp.Controllers
       
       var line = new LineItem() {
         Description = LineDescription,
-        Quantity = float.Parse(LineQuantity),
-        UnitAmount = float.Parse(LineUnitAmount),
+        Quantity = decimal.Parse(LineQuantity),
+        UnitAmount = decimal.Parse(LineUnitAmount),
         AccountCode = LineAccountCode
       };
 
