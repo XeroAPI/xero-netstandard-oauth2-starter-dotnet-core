@@ -1,5 +1,3 @@
-using System;
-
 namespace XeroNetStandardApp.Models
 {
     public class ErrorViewModel

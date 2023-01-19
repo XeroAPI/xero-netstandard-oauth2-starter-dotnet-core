@@ -1,19 +1,19 @@
 <h2>Create a Xero Fixed Asset</h2>
 
 <form method="POST">
-    <label for="Name">Asset Name:</label>
+    <label for="Name">Asset name:</label>
     <br>
-    <input type="text" id="Name" placeholder="Enter a name for the asset" name="Name"/>
+    <input type="text" id="Name" placeholder="Enter a name for the asset" name="name"/>
     <br>
-    <label for="Number">Asset Number:</label>
+    <label for="Number">Asset number:</label>
     <br>
-    <input type="text" id="Number" placeholder="Enter a number for the asset" name="Number" />
+    <input type="text" id="Number" placeholder="Enter a number for the asset" name="number" />
     <br>
     <br>
     <input type="submit" />
 </form>
 
-<br>
-<p>
-  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
-</p>
+<hr/>
+<br/>
+
+<button class="btn-link" onclick="location.href='@Url.Action("Index", "Home")'">Home</button>

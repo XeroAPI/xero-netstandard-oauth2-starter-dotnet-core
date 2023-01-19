@@ -2,7 +2,7 @@
 
 <h2>Xero Invoices in the Last 7 Days</h2>
 
-<table border="1">
+<table class="table-responsive-lg">
   <tr>
     <th>Invoice #</th>
     <th>To</th>
@@ -14,14 +14,14 @@
     <tr>
       <td>@invoice.InvoiceNumber</td>
       <td>@invoice.Contact.Name</td>
-      <td>@invoice.Date.ToString("dddd, dd MMMM yyyy")</td>
-      <td>@invoice.DueDate.ToString("dddd, dd MMMM yyyy")</td>
+      <td>@invoice.Date.ToString("d/MM,yy")</td>
+      <td>@invoice.DueDate.ToString("d/MM/yy")</td>
       <td>@invoice.Total</td>
     </tr>
   }
 </table>
 
-<br>
-<p>
-  <button onclick="location.href='@Url.Action("Index", "Home")'">Home</button>
-</p>
+<hr/>
+<br/>
+
+<button onclick="location.href='@Url.Action("Index", "Home")'">Back</button>

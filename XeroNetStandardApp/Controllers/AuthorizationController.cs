@@ -1,76 +1,60 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Xero.NetStandard.OAuth2.Client;
 using Xero.NetStandard.OAuth2.Config;
 using Xero.NetStandard.OAuth2.Token;
 using Microsoft.Extensions.Options;
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Xero.NetStandard.OAuth2.Models;
-using System.Collections.Generic;
 
 namespace XeroNetStandardApp.Controllers
 {
-  public class AuthorizationController : Controller
-  {
-    private readonly ILogger<AuthorizationController> _logger;
-    private readonly IOptions<XeroConfiguration> XeroConfig;
-    private readonly IHttpClientFactory httpClientFactory;
-
-    // GET /Authorization/
-    public AuthorizationController(IOptions<XeroConfiguration> XeroConfig, IHttpClientFactory httpClientFactory, ILogger<AuthorizationController> logger)
+    /// <summary>
+    /// Controller managing authorization 
+    /// </summary>
+    public class AuthorizationController : BaseXeroOAuth2Controller
     {
-      _logger = logger;
-      this.XeroConfig = XeroConfig;
-      this.httpClientFactory = httpClientFactory;
+        private readonly XeroClient _client;
+
+        public AuthorizationController(IOptions<XeroConfiguration> xeroConfig) : base(xeroConfig)
+        {
+            _client = new XeroClient(xeroConfig.Value);
+        }
+
+        /// <summary>
+        /// Index, redirect to login page
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Index()
+        {
+            return Redirect(_client.BuildLoginUri());
+        }
+
+        /// <summary>
+        /// Callback for authorization
+        /// </summary>
+        /// <param name="code">Returned code</param>
+        /// <param name="state">Returned state</param>
+        /// <returns>Redirect to organisations page</returns>
+        public async Task<IActionResult> Callback(string code, string state)
+        {
+            var xeroToken = (XeroOAuth2Token)await _client.RequestAccessTokenAsync(code);
+
+            tokenIO.StoreToken(xeroToken);
+
+            return RedirectToAction("Index", "OrganisationInfo");
+        }
+
+        /// <summary>
+        /// Disconnect org connections to sample app. Destroys token
+        /// <para>GET /Authorization/Disconnect</para>
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IActionResult> Disconnect()
+        {
+            await _client.DeleteConnectionAsync(XeroToken, XeroToken.Tenants[0]);
+
+            tokenIO.DestroyToken();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
-
-    public IActionResult Index()
-    {
-
-      var client = new XeroClient(XeroConfig.Value, httpClientFactory);
-
-      return Redirect(client.BuildLoginUri());
-    }
-
-    // GET /Authorization/Callback
-    public async Task<ActionResult> Callback(string code, string state)
-    {
-      var client = new XeroClient(XeroConfig.Value, httpClientFactory);
-      var xeroToken = (XeroOAuth2Token)await client.RequestXeroTokenAsync(code);
-
-      List<Tenant> tenants = await client.GetConnectionsAsync(xeroToken);
-
-      Tenant firstTenant = tenants[0];
-
-      TokenUtilities.StoreToken(xeroToken);
-
-      return RedirectToAction("Index", "OrganisationInfo");
-    }
-
-    // GET /Authorization/Disconnect
-    public async Task<ActionResult> Disconnect()
-    {      
-      var client = new XeroClient(XeroConfig.Value, httpClientFactory);
-
-      var xeroToken = TokenUtilities.GetStoredToken();
-      var utcTimeNow = DateTime.UtcNow;
-
-      if (utcTimeNow > xeroToken.ExpiresAtUtc)
-      {
-        xeroToken = (XeroOAuth2Token)await client.RefreshAccessTokenAsync(xeroToken);
-        TokenUtilities.StoreToken(xeroToken);
-      }
-
-      string accessToken = xeroToken.AccessToken;
-      Tenant xeroTenant = xeroToken.Tenants[0];
-
-      await client.DeleteConnectionAsync(xeroToken, xeroTenant);
-
-      TokenUtilities.DestroyToken();
-
-      return RedirectToAction("Index", "Home");
-    }
-  }
 }
