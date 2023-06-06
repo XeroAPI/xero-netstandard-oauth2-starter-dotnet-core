@@ -52,11 +52,8 @@ namespace XeroNetStandardApp.IO
         /// <param name="xeroToken">Xero OAuth2 token to save</param>
         public void StoreToken(XeroOAuth2Token xeroToken)
         {
-            if (File.Exists(TokenFilePath))
-            {
-                var serializedToken = JsonSerializer.Serialize(xeroToken);
-                File.WriteAllText(TokenFilePath, serializedToken);
-            }
+            var serializedToken = JsonSerializer.Serialize(xeroToken);
+            File.WriteAllText(TokenFilePath, serializedToken);
         }
 
         /// <summary>
