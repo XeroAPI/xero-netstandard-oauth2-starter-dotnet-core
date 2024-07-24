@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xero.NetStandard.OAuth2" Version="3.31.0" />
+    <PackageReference Include="Xero.NetStandard.OAuth2" Version="8.0.0" />
     <PackageReference Include="Xero.NetStandard.OAuth2Client" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
   </ItemGroup>
