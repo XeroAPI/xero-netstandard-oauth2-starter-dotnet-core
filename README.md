@@ -1,3 +1,5 @@
+📍 __Notice__ This application is now in Read Only status as it is now deprecated
+
 # Xero NetStandard OAuth 2.0 Starter App
 This is a starter app build with .NET Core 3.1 MVC to demonstrate Xero OAuth 2.0 Client Authentication & OAuth 2.0 APIs. 
 
